@@ -31,7 +31,7 @@ Complete examples:
 
 ## Build
 
-The repository requires .NET SDK `10.0.302` and uses locked dependencies.
+The repository requires .NET SDK `10.0.401` and uses locked dependencies.
 
 ```sh
 bash scripts/verify.sh
