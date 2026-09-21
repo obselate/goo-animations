@@ -11,8 +11,8 @@ public class Keyframes {
         /// Creates a keyframe tween that intentionally ignores incoming velocity.
         /// @param duration total duration in seconds, including zero
         /// @param frames ordered authored frames from time zero to one
-        /// @returns a reusable Goo scalar simulation factory
-        public func Tween(duration float64, frames[]Keyframe)(float64, float64, float64) -> Simulation {
+        /// @returns a reusable exact-duration motion specification
+        public func Tween(duration float64, frames[]Keyframe) MotionSpec {
             if !Double.IsFinite(duration) || duration < 0.0 {
                 throw ArgumentOutOfRangeException("duration")
             }
@@ -49,12 +49,31 @@ public class Keyframes {
                 throw ArgumentException("The final keyframe must describe the exact target.")
             }
 
-            return (start float64, target float64, velocity float64) -> KeyframeSimulation(
-                start,
-                target,
+            return MotionSpec(
                 duration,
-                copy
+                (start float64, target float64, velocity float64) -> KeyframeSimulation(start, target, duration, copy)
             )
+        }
+
+        /// Creates an offset animation whose target progress matches authored time.
+        /// @param duration total duration in seconds, including zero
+        /// @param offsets ordered offsets from time zero to one
+        /// @param easing easing used by every segment
+        /// @returns a reusable exact-duration motion specification
+        public func Offsets(duration float64, offsets[]TimedOffset, easing Easing) MotionSpec {
+            let frames = [offsets.Length]Keyframe
+
+            for index in 0 ... offsets.Length {
+                let offset = offsets[index]
+                frames[index] = Keyframe{
+                    Time: offset.Time,
+                    Progress: offset.Time,
+                    Offset: offset.Offset,
+                    Easing: easing
+                }
+            }
+
+            return Tween(duration, frames)
         }
     }
 }

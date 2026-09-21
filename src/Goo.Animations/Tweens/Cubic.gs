@@ -10,18 +10,10 @@ public class Cubic {
     shared {
         /// Creates a cubic tween that preserves initial velocity and ends at rest.
         /// @param duration duration in seconds, including zero
-        /// @returns a reusable Goo scalar simulation factory
-        public func Tween(duration float64)(float64, float64, float64) -> Simulation {
-            if !Double.IsFinite(duration) || duration < 0.0 {
-                throw ArgumentOutOfRangeException("duration")
-            }
-
-            return (start float64, target float64, velocity float64) -> CubicSimulation(
-                start,
-                target,
-                velocity,
-                duration
-            )
-        }
+        /// @returns a reusable exact-duration motion specification
+        public func Tween(duration float64) MotionSpec -> MotionSpec(
+            duration,
+            (start float64, target float64, velocity float64) -> CubicSimulation(start, target, velocity, duration)
+        )
     }
 }

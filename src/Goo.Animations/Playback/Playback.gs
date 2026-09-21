@@ -8,68 +8,60 @@ public class Playback {
     private init() { }
 
     shared {
-        private func validate(cycleDuration float64, factory(float64, float64, float64) -> Simulation) {
-            if !Double.IsFinite(cycleDuration) || cycleDuration < 0.0 {
-                throw ArgumentOutOfRangeException("cycleDuration")
+        private func play(spec MotionSpec, legs int32, alternate bool) MotionSpec {
+            let duration = spec.Duration * float64(legs)
+            if !Double.IsFinite(duration) {
+                throw ArgumentOutOfRangeException("spec")
             }
-            if factory == nil {
-                throw ArgumentNullException("factory")
-            }
+
+            return MotionSpec(
+                duration,
+                (start float64, target float64, velocity float64) -> PlaybackSimulation(
+                    start,
+                    target,
+                    spec.Duration,
+                    legs,
+                    alternate,
+                    spec.Factory(start, target, velocity)
+                )
+            )
         }
 
         /// Replays a forward simulation a finite number of times.
-        /// @param cycleDuration duration of the wrapped simulation in seconds
         /// @param count total number of forward cycles
-        /// @param factory exact-duration simulation factory
-        /// @returns a reusable scalar simulation factory
-        public func Repeat(cycleDuration float64, count int32, factory(float64, float64, float64) -> Simulation)(
-            float64,
-            float64,
-            float64
-        ) -> Simulation {
-            validate(cycleDuration, factory)
-
+        /// @param spec exact-duration motion specification
+        /// @returns a reusable motion specification with the combined duration
+        public func Repeat(count int32, spec MotionSpec) MotionSpec {
+            if spec == nil {
+                throw ArgumentNullException("spec")
+            }
             if count < 1 {
                 throw ArgumentOutOfRangeException("count")
             }
-            if !Double.IsFinite(cycleDuration * float64(count)) {
-                throw ArgumentOutOfRangeException("cycleDuration")
-            }
             if count == 1 {
-                return factory
+                return spec
             }
 
-            return (start float64, target float64, velocity float64) ->
-            PlaybackSimulation(start, target, cycleDuration, count, false, factory(start, target, velocity))
+            return play(spec, count, false)
         }
 
         /// Plays forward once, then backward and forward for each round trip.
-        /// @param cycleDuration duration of one direction in seconds
         /// @param roundTrips number of backward-forward pairs after the initial forward leg
-        /// @param factory exact-duration simulation factory
-        /// @returns a reusable Goo scalar simulation factory
-        public func PingPong(cycleDuration float64, roundTrips int32, factory(float64, float64, float64) -> Simulation)(
-            float64,
-            float64,
-            float64
-        ) -> Simulation {
-            validate(cycleDuration, factory)
-
+        /// @param spec exact-duration motion specification
+        /// @returns a reusable motion specification with the combined duration
+        public func PingPong(roundTrips int32, spec MotionSpec) MotionSpec {
+            if spec == nil {
+                throw ArgumentNullException("spec")
+            }
             if roundTrips < 0 || roundTrips > (Int32.MaxValue - 1) / 2 {
                 throw ArgumentOutOfRangeException("roundTrips")
             }
             if roundTrips == 0 {
-                return factory
+                return spec
             }
 
             let legs = roundTrips * 2 + 1
-
-            if !Double.IsFinite(cycleDuration * float64(legs)) {
-                throw ArgumentOutOfRangeException("cycleDuration")
-            }
-
-            return (start float64, target float64, velocity float64) ->
-            PlaybackSimulation(start, target, cycleDuration, legs, true, factory(start, target, velocity))
+            return play(spec, legs, true)
         }
     }
 }
