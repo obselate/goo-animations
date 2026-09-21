@@ -1,0 +1,13 @@
+<Project Sdk="Gsharp.NET.Sdk/0.4.591">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Goo.Animations.Widgets</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Goo.Animations/Goo.Animations.gsproj" />
+    <PackageReference Include="Goo.Widgets" Version="[0.2.3]" />
+    <Watch Include="**/*.gs" Exclude="bin/**;obj/**" />
+  </ItemGroup>
+</Project>
