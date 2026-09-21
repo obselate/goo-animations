@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 - 2026-09-21
+
+- Add exact-duration `MotionSpec` values and direct `Anim.To` support.
+- Let delays preserve duration and let playback derive its cycle duration.
+- Add `Timeline` for timed steps, holds, looping, and safe deferred handoffs.
+- Add `Stagger.To` for indexed transition delays.
+- Add `Keyframes.Offsets` and `TimedOffset` for additive keyframes.
+- Update the widget samples for the new authoring APIs.
+
 ## 0.1.0 - 2026-09-21
 
 - Establish the Goo.Animations library and plain Goo / Widgets samples.

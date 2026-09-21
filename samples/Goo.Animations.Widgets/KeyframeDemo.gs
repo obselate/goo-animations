@@ -5,34 +5,28 @@ import Goo.Widgets.Feedback
 
 class KeyframeDemo : Cell {
     private let shakeOffset Anim[float64]
-    private let shakeFactory(float64, float64, float64) -> Simulation
+    private let shake MotionSpec
 
     init() {
         shakeOffset = Animate(0.0)
 
-        let offsetFrame = (time float64, offset float64) -> Keyframe{
-            Time: time,
-            Progress: time,
-            Offset: offset,
-            Easing: Easing.EaseInOut,
-        }
-
-        shakeFactory = Keyframes.Tween(
+        shake = Keyframes.Offsets(
             0.45,
-            []Keyframe{
-                offsetFrame(0.0, 0.0),
-                offsetFrame(0.15, -12.0),
-                offsetFrame(0.3, 10.0),
-                offsetFrame(0.45, -8.0),
-                offsetFrame(0.6, 6.0),
-                offsetFrame(0.75, -3.0),
-                offsetFrame(1.0, 0.0),
-            }
+            []TimedOffset{
+                TimedOffset{Time: 0.0, Offset: 0.0},
+                TimedOffset{Time: 0.15, Offset: -12.0},
+                TimedOffset{Time: 0.3, Offset: 10.0},
+                TimedOffset{Time: 0.45, Offset: -8.0},
+                TimedOffset{Time: 0.6, Offset: 6.0},
+                TimedOffset{Time: 0.75, Offset: -3.0},
+                TimedOffset{Time: 1.0, Offset: 0.0},
+            },
+            Easing.EaseInOut
         )
     }
 
     private func shakeBanner() {
-        shakeOffset.To(0.0, shakeFactory)
+        shakeOffset.To(0.0, shake)
     }
 
     override func Build() Blob -> Container{

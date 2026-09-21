@@ -3,7 +3,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Goo.Animations</RootNamespace>
     <AssemblyName>Goo.Animations</AssemblyName>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <PackageId>Goo.Animations</PackageId>
     <Title>Goo Animations</Title>
     <Authors>obselate</Authors>

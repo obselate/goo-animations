@@ -19,11 +19,7 @@ class StaggerDemo : Cell {
             0.0
         }
         let spring = Spring.Critical(14.0, 0.001, 0.01)
-
-        for index in 0 ... badgeProgress.Length {
-            let delay = float64(index) * 0.12
-            badgeProgress[index].To(target, Delay.By(delay, spring))
-        }
+        Stagger.To(badgeProgress, target, spring, 0.12)
     }
 
     override func Build() Blob {

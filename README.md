@@ -1,18 +1,18 @@
 # Goo Animations
 
-Reusable G# simulation factories for [Goo Motion](https://github.com/obselate/goo/blob/main/docs/api/motion.md).
+Reusable G# animation tools for [Goo Motion](https://github.com/obselate/goo/blob/main/docs/api/motion.md).
 
-The API provides damped springs, delayed motion, velocity-preserving
-cubic tweens, scalar keyframes, and finite repeat and ping-pong playback. Goo
-continues to own animated values, timing, scheduling, and rendering.
+The API provides springs, exact-duration motion specifications, delays,
+staggering, keyframes, finite playback, and timelines. Goo owns animated values,
+the motion clock, and rendering.
 
 ## Install
 
-Goo Animations `0.1.0` targets .NET 10 and depends on Goo `0.6.3`. Use
+Goo Animations `0.2.0` targets .NET 10 and depends on Goo `0.6.3`. Use
 `Gsharp.NET.Sdk/0.4.591` and install the package from NuGet.org:
 
 ```sh
-dotnet add YourApp.gsproj package Goo.Animations --version 0.1.0
+dotnet add YourApp.gsproj package Goo.Animations --version 0.2.0
 ```
 
 ## Use
@@ -22,6 +22,18 @@ import Goo
 import Goo.Animations
 
 offset.To(220.0, Spring.Damped(10.0, 0.5, 0.1, 1.0))
+
+let pulse = Playback.PingPong(2, Cubic.Tween(0.3))
+opacity.To(1.0, pulse)
+
+Stagger.To(items, 1.0, Spring.Critical(14.0, 0.001, 0.01), 0.12)
+
+let timeline = Timeline(this)
+timeline.Run(0.6, reveal)
+timeline.Run(0.4, settle)
+timeline.Hold(1.0)
+timeline.Loop()
+timeline.Play(window)
 ```
 
 Complete examples:

@@ -8,31 +8,31 @@ import Goo.Widgets.Feedback
 class PlaybackDemo : Cell {
     private let repeatPulse Anim[float64]
     private let pingPongOffset Anim[float64]
-    private let repeatFactory(float64, float64, float64) -> Simulation
-    private let pingPongFactory(float64, float64, float64) -> Simulation
+    private let repeat MotionSpec
+    private let pingPong MotionSpec
 
     init() {
         repeatPulse = Animate(0.0)
         pingPongOffset = Animate(0.0)
 
-        let offsetFrame = (time float64, offset float64) -> Keyframe{
-            Time: time,
-            Progress: time,
-            Offset: offset,
-            Easing: Easing.EaseInOut,
-        }
-
-        repeatFactory = Playback.Repeat(
-            0.3,
+        repeat = Playback.Repeat(
             2,
-            Keyframes.Tween(0.3, []Keyframe{offsetFrame(0.0, 0.0), offsetFrame(0.5, 0.18), offsetFrame(1.0, 0.0),})
+            Keyframes.Offsets(
+                0.3,
+                []TimedOffset{
+                    TimedOffset{Time: 0.0, Offset: 0.0},
+                    TimedOffset{Time: 0.5, Offset: 0.18},
+                    TimedOffset{Time: 1.0, Offset: 0.0},
+                },
+                Easing.EaseInOut
+            )
         )
 
-        pingPongFactory = Playback.PingPong(0.25, 1, Cubic.Tween(0.25))
+        pingPong = Playback.PingPong(1, Cubic.Tween(0.25))
     }
 
     private func repeatBadge() {
-        repeatPulse.To(0.0, repeatFactory)
+        repeatPulse.To(0.0, repeat)
     }
 
     private func pingPongBadge() {
@@ -42,7 +42,7 @@ class PlaybackDemo : Cell {
             -24.0
         }
 
-        pingPongOffset.To(target, pingPongFactory)
+        pingPongOffset.To(target, pingPong)
     }
 
     override func Build() Blob -> Container{
