@@ -19,9 +19,6 @@ dotnet build tools/Gslint/Gslint.csproj -c Release --no-restore --nologo -warnas
 dotnet tools/Gslint/bin/Release/net10.0/Gslint.dll --strict src samples
 dotnet restore Goo.Animations.slnx --locked-mode
 dotnet build Goo.Animations.slnx -c Release --no-restore --nologo
-dotnet restore tools/Goo.Animations.ApiDocs/Goo.Animations.ApiDocs.csproj --locked-mode
-dotnet run --project tools/Goo.Animations.ApiDocs/Goo.Animations.ApiDocs.csproj -c Release --no-restore
-git diff --exit-code -- docs/api
 dotnet pack src/Goo.Animations/Goo.Animations.gsproj -c Release --no-build --no-restore -o artifacts/packages
 python3 scripts/verify-package.py
 

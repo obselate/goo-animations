@@ -15,11 +15,7 @@ deps/
 /tools/Gslint/*
 !/tools/Gslint/Gslint.csproj
 !/tools/Gslint/packages.lock.json
-!/tools/Goo.Animations.ApiDocs/
-/tools/Goo.Animations.ApiDocs/*
-!/tools/Goo.Animations.ApiDocs/Goo.Animations.ApiDocs.csproj
-!/tools/Goo.Animations.ApiDocs/Program.cs
-!/tools/Goo.Animations.ApiDocs/packages.lock.json
+/tools/Goo.Animations.ApiDocs/
 .vs/
 .idea/
 .env
