@@ -3,7 +3,7 @@ package Goo.Animations
 import Goo
 import System
 
-/// Creates reusable spring simulation factories
+/// Creates reusable spring simulation factories.
 public class Spring {
     private init() { }
 

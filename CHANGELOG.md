@@ -8,6 +8,7 @@
 - Add `Stagger.To` for indexed transition delays.
 - Add `Keyframes.Offsets` and `TimedOffset` for additive keyframes.
 - Update the widget samples for the new authoring APIs.
+- Generate and verify Markdown API reference pages from the library XML documentation.
 
 ## 0.1.0 - 2026-09-21
 

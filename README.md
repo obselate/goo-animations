@@ -49,10 +49,12 @@ The repository requires .NET SDK `10.0.401` and uses locked dependencies.
 bash scripts/verify.sh
 ```
 
-Verification runs pinned strict G# lint, all three Release builds, package creation,
-package validation, and the repository diff check.
+Verification runs pinned strict G# lint, all three Release builds, generated API
+documentation consistency, package creation, package validation, and the repository
+diff check.
 
 ## Links
 
+- [API reference](https://github.com/obselate/goo-animations/tree/main/docs/api)
 - [Release process](https://github.com/obselate/goo-animations/blob/main/.github/RELEASING.md)
 - [Goo Motion API](https://github.com/obselate/goo/blob/main/docs/api/motion.md)
