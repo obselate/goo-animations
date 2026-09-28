@@ -3,6 +3,11 @@
 Releases use the `obselate/goo-animations` GitHub repository and NuGet Trusted
 Publishing.
 
+Animations stays below 1.0.0. Use patch increments for fixes and small additions.
+Reserve minor increments for substantial feature batches.
+Every merged change must be pushed, pass upstream CI, and receive a
+new release tag.
+
 ## First release setup
 
 1. Create the GitHub `release` environment.
