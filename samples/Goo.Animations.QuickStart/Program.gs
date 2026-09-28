@@ -21,8 +21,8 @@ class TweenPreview : Cell {
     }
 
     override func Build() Blob -> Container{
-        Width: Length.Percent(100),
-        Height: Length.Percent(100),
+        Width: Percent(100),
+        Height: Percent(100),
         Padding: 24,
         Gap: 16,
         AlignItems: AlignItems.Center,

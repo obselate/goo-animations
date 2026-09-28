@@ -42,6 +42,6 @@ class KeyframeDemo : Cell {
                 Transform: PanelTransform{TranslateX: shakeOffset.Value},
             }.Build(),
         },
-        ActionButton{Label: "Show invalid action", OnClick: () -> shakeBanner(),}.Build(),
+        ActionButton{Content: "Show invalid action", OnClick: () -> shakeBanner(),}.Build(),
     }
 }

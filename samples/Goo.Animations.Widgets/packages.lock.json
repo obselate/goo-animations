@@ -4,18 +4,18 @@
     "net10.0": {
       "Goo.Widgets": {
         "type": "Direct",
-        "requested": "[0.2.3, 0.2.3]",
-        "resolved": "0.2.3",
-        "contentHash": "yGPsTw08xnnc/sPbi2SSl49c6FeLn7IO9wpP+/MrN3VBQGVj1ufK/jw5CPnEP2YLIqkwCRqnVTsnpjA6DGpOYg==",
+        "requested": "[0.2.6, 0.2.6]",
+        "resolved": "0.2.6",
+        "contentHash": "g/XnvI7wWbKg68Q/YWMyeYfaxMhmPlAbHk2RuzB+EW7wSS67vwf/CmkoclA8u0j3hfmIWRoraNJQNm49NDoxhQ==",
         "dependencies": {
-          "Goo": "0.5.4",
-          "Goo.Svg": "0.5.4"
+          "Goo": "0.6.6",
+          "Goo.Svg": "0.6.6"
         }
       },
       "Goo": {
         "type": "Transitive",
-        "resolved": "0.6.3",
-        "contentHash": "3j3IbULWNKBCQ5uRGdChxlDWQA6I1VL3fcCqrVOwZxkLYo2gOIhA39UfQ3yjUxeYfUTPyVN6WeHbLHODiA9iLA==",
+        "resolved": "0.6.6",
+        "contentHash": "y2MS5KPrOo2kLZLDHRJObVpl4J15Ywp4FNIXmjPcaToR8Y+IZVKVhO7/CeBpELCBzUKzj3W5v8BaH0GflnZnaw==",
         "dependencies": {
           "Hexa.NET.SDL3": "1.2.17",
           "StbImageSharp": "2.30.16",
@@ -24,10 +24,10 @@
       },
       "Goo.Svg": {
         "type": "Transitive",
-        "resolved": "0.5.4",
-        "contentHash": "qG00/I1gpJWKjyhFLErDJn9KpDocfppeWUkjR8DSvWIPGHw9FvwY6zDsNk/h73IMGrxxsUvyxsyYU3+5UmI8+A==",
+        "resolved": "0.6.6",
+        "contentHash": "N1XXzC41/vb6AFsLr+gD3RZdXHIm/ion0ugR0ZgYieP98JvHf1cJxHrdl1EsxIGTs4E4obV42T0dZpp8lkjJhQ==",
         "dependencies": {
-          "Goo": "0.5.4"
+          "Goo": "0.6.6"
         }
       },
       "Hexa.NET.SDL3": {
@@ -56,7 +56,7 @@
       "goo.animations": {
         "type": "Project",
         "dependencies": {
-          "Goo": "[0.6.3, 0.6.3]"
+          "Goo": "[0.6.6, 0.6.6]"
         }
       }
     }

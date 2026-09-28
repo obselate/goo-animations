@@ -42,7 +42,7 @@ class StaggerDemo : Cell {
             Gap: 24,
             AlignItems: AlignItems.Center,
             badgeRow,
-            ActionButton{Label: "Stagger badges", OnClick: () -> toggleBadges(),}.Build(),
+            ActionButton{Content: "Stagger badges", OnClick: () -> toggleBadges(),}.Build(),
         }
     }
 }

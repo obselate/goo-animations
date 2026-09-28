@@ -68,8 +68,8 @@ class PlaybackDemo : Cell {
         Container{
             FlexDirection: FlexDirection.Row,
             Gap: 12,
-            ActionButton{Label: "Repeat pulse", OnClick: () -> repeatBadge(),}.Build(),
-            ActionButton{Label: "Ping-pong", OnClick: () -> pingPongBadge(),}.Build(),
+            ActionButton{Content: "Repeat pulse", OnClick: () -> repeatBadge(),}.Build(),
+            ActionButton{Content: "Ping-pong", OnClick: () -> pingPongBadge(),}.Build(),
         },
     }
 }

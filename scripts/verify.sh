@@ -16,15 +16,18 @@ printf '%s  %s\n' "$lint_hash" "$lint_source" | sha256sum --check --status
 
 dotnet restore tools/Gslint/Gslint.csproj --locked-mode
 dotnet build tools/Gslint/Gslint.csproj -c Release --no-restore --nologo -warnaserror
-dotnet tools/Gslint/bin/Release/net10.0/Gslint.dll --strict src samples
+dotnet tools/Gslint/bin/Release/net10.0/Gslint.dll --strict src samples tests
 dotnet restore Goo.Animations.slnx --locked-mode
 dotnet build Goo.Animations.slnx -c Release --no-restore --nologo
 dotnet pack src/Goo.Animations/Goo.Animations.gsproj -c Release --no-build --no-restore -o artifacts/packages
 python3 scripts/verify-package.py
+version="$(dotnet msbuild src/Goo.Animations/Goo.Animations.gsproj -getProperty:Version -nologo)"
+dotnet restore tests/Goo.Animations.PackageSmoke/Goo.Animations.PackageSmoke.gsproj --locked-mode
+dotnet run --project tests/Goo.Animations.PackageSmoke/Goo.Animations.PackageSmoke.gsproj \
+  -c Release --no-restore
 
 (
   cd artifacts/packages
-  version="$(dotnet msbuild ../../src/Goo.Animations/Goo.Animations.gsproj -getProperty:Version -nologo)"
   sha256sum "Goo.Animations.$version.nupkg" > SHA256SUMS
 )
 

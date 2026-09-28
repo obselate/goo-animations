@@ -46,6 +46,6 @@ class TweenDemo : Cell {
             TransitionMs: 0.0,
             AccessibilityName: "Cubic Progress",
         }.Build(),
-        ActionButton{Label: "Toggle progress", OnClick: () -> toggle(),}.Build(),
+        ActionButton{Content: "Toggle progress", OnClick: () -> toggle(),}.Build(),
     }
 }

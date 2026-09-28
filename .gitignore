@@ -9,7 +9,8 @@ deps/
 /scripts/*
 !/scripts/verify-package.py
 !/scripts/verify.sh
-/tests/
+/tests/*
+!/tests/Goo.Animations.PackageSmoke/
 /tools/*
 !/tools/Gslint/
 /tools/Gslint/*

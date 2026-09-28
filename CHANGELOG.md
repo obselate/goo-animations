@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 - 2026-09-28
+
+- Update the Goo dependency to `0.6.6`.
+- Update the Widgets sample for Goo.Widgets `0.2.6`.
+
 ## 0.2.0 - 2026-09-21
 
 - Add exact-duration `MotionSpec` values and direct `Anim.To` support.
