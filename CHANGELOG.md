@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3 - 2026-09-28
+
+- Update the Goo dependency to `0.6.7`.
+- Let timelines play without a Window argument using Goo's completed-motion signal.
+- End looping timelines after the current iteration when reduced motion is active or `Motion.TimeScale` is disabled.
+
 ## 0.2.2 - 2026-09-28
 
 - Update the Goo dependency to `0.6.6`.

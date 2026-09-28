@@ -8,11 +8,11 @@ the motion clock, and rendering.
 
 ## Install
 
-Goo Animations `0.2.2` targets .NET 10 and depends on Goo `0.6.6`. Use
+Goo Animations `0.2.3` targets .NET 10 and depends on Goo `0.6.7`. Use
 `Gsharp.NET.Sdk/0.4.591` and install the package from NuGet.org:
 
 ```sh
-dotnet add YourApp.gsproj package Goo.Animations --version 0.2.2
+dotnet add YourApp.gsproj package Goo.Animations --version 0.2.3
 ```
 
 ## Use
@@ -33,7 +33,7 @@ timeline.Run(0.6, reveal)
 timeline.Run(0.4, settle)
 timeline.Hold(1.0)
 timeline.Loop()
-timeline.Play(window)
+timeline.Play()
 ```
 
 Complete examples:
@@ -50,7 +50,7 @@ bash scripts/verify.sh
 ```
 
 Verification runs pinned strict G# lint, all three Release builds, package creation,
-package validation, a packaged consumer motion smoke, and the repository diff check.
+package validation, packaged consumer motion lifecycle checks, and the repository diff check.
 
 ## Links
 

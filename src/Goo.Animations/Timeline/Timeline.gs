@@ -6,19 +6,20 @@ import System.Collections.Generic
 
 internal data struct TimelineStep(Duration float64, Action Action?) { }
 
-/// Runs a sequence of timed animation actions on a window.
+/// Runs a sequence of timed actions on a cell-owned motion clock.
 public sealed class Timeline {
     private let clock Anim[float64]
     private let steps List[TimelineStep]
-    private var window Window?
     private var index int32
     private var revision int32
     private var looping bool
     private var running bool
+    private var dispatchingAction bool
+    private var finishLoop bool
 
     /// Gets whether the timeline is running.
     public prop Running bool {
-        get -> running
+        get -> !clock.IsDisposed && running && (clock.Running || dispatchingAction)
     }
 
     /// Creates a timeline owned by a cell.
@@ -28,7 +29,8 @@ public sealed class Timeline {
             throw ArgumentNullException("owner")
         }
 
-        clock = owner.Animate(0.0, completed)
+        clock = owner.Animate(0.0, (value float64) -> { })
+        clock.Completed += completed
         steps = List[TimelineStep]()
     }
 
@@ -53,39 +55,49 @@ public sealed class Timeline {
         return this
     }
 
-    /// Repeats the sequence until stopped.
+    /// Repeats the sequence until stopped. Reduced or disabled motion finishes the current iteration, then stops.
     /// @returns this timeline
     public func Loop() Timeline {
+        ensureAlive()
         ensureStopped()
         looping = true
         return this
     }
 
     /// Starts or restarts the sequence.
-    /// @param window window used to defer step handoffs
-    public func Play(window Window) {
-        if window == nil {
-            throw ArgumentNullException("window")
-        }
+    public func Play() {
+        ensureAlive()
         if steps.Count == 0 {
             throw InvalidOperationException("A timeline requires at least one step.")
         }
 
-        this.window = window
+        clock.Set(0.0)
         index = 0
+        finishLoop = false
         running = true
         revision++
         advance(revision)
     }
 
+    /// Starts or restarts the sequence. Retained for source compatibility.
+    /// @param window ignored; the cell-owned motion clock schedules handoffs
+    public func Play(window Window) {
+        if window == nil {
+            throw ArgumentNullException("window")
+        }
+        Play()
+    }
+
     /// Stops the sequence.
     public func Stop() {
         running = false
+        finishLoop = false
         revision++
         clock.Set(0.0)
     }
 
     private func add(duration float64, action Action?) {
+        ensureAlive()
         ensureStopped()
         if !Double.IsFinite(duration) || duration < 0.0 {
             throw ArgumentOutOfRangeException("duration")
@@ -95,33 +107,45 @@ public sealed class Timeline {
     }
 
     private func ensureStopped() {
-        if running {
+        if Running {
             throw InvalidOperationException("A running timeline cannot be changed.")
         }
     }
 
-    private func completed(value float64) {
-        if !running || value < 1.0 {
+    private func ensureAlive() {
+        if clock.IsDisposed {
+            throw ObjectDisposedException("Timeline")
+        }
+    }
+
+    private func completed(reason MotionCompletionReason) {
+        if !running {
             return
         }
 
-        let expected = revision
-        if let host = window {
-            if !host.TryPost(() -> advance(expected)) {
-                running = false
-            }
-        } else {
-            running = false
+        if reason != MotionCompletionReason.Finished && looping {
+            finishLoop = true
         }
+
+        advance(revision)
     }
 
     private func advance(expected int32) {
         if !running || expected != revision {
             return
         }
+        if clock.IsDisposed {
+            running = false
+            return
+        }
         if index == steps.Count {
             if !looping {
                 running = false
+                return
+            }
+            if finishLoop {
+                running = false
+                finishLoop = false
                 return
             }
             index = 0
@@ -130,9 +154,23 @@ public sealed class Timeline {
         let step = steps[index]
         index++
         if let action = step.Action {
-            action()
+            dispatchingAction = true
+            try {
+                action()
+            } catch (error Exception) {
+                running = false
+                finishLoop = false
+                revision++
+                clock.Set(0.0)
+                throw error
+            } finally {
+                dispatchingAction = false
+            }
         }
-        if !running || expected != revision {
+        if !running || expected != revision || clock.IsDisposed {
+            if clock.IsDisposed {
+                running = false
+            }
             return
         }
 

@@ -8,7 +8,17 @@ Source:
 
 - [`Timeline.gs`](../../src/Goo.Animations/Timeline/Timeline.gs)
 
-Runs a sequence of timed animation actions on a window.
+Runs a sequence of timed actions on a cell-owned motion clock.
+
+```gs
+let timeline = Timeline(owner)
+timeline.Run(0.2, reveal)
+timeline.Hold(0.1)
+timeline.Run(0.2, settle)
+timeline.Play()
+```
+
+The timeline needs no `Window` argument. Disposing `owner` stops it: `Running` becomes false and later calls to `Play` throw `ObjectDisposedException`. Reduced motion or `Motion.TimeScale <= 0` completes each step immediately. Finite sequences still run every step in order; a loop completes its current pass, then stops.
 
 ### `new(Cell)`
 
@@ -26,15 +36,17 @@ Returns: this timeline
 
 ### `Loop`
 
-Repeats the sequence until stopped.
+Repeats the sequence until stopped. When reduced motion is active or `Motion.TimeScale <= 0`, the current iteration finishes and the timeline stops instead of looping again.
 
 Returns: this timeline
 
-### `Play(Window)`
+### `Play()`
 
 Starts or restarts the sequence.
 
-- `window`: window used to defer step handoffs
+### `Play(Window)`
+
+Starts or restarts the sequence. Retained for source compatibility; the window is ignored.
 
 ### `Run(float64,System.Action)`
 
