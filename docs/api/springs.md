@@ -10,6 +10,16 @@ Source:
 
 Creates reusable spring simulation factories.
 
+The returned factory creates a `Simulation` without a cell or clock. Sample its
+position and velocity at any elapsed time in seconds, including repeated or
+earlier times:
+
+```gs
+let spring = Spring.Damped(11.0, 0.56, 0.001, 0.01)(0.0, 1.0, 0.0)
+let position = spring.Position(elapsed)
+let velocity = spring.Velocity(elapsed)
+```
+
 ### `Critical(float64,float64,float64)`
 
 Creates a critically damped scalar simulation factory.

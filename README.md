@@ -8,11 +8,11 @@ the motion clock, and rendering.
 
 ## Install
 
-Goo Animations `0.2.3` targets .NET 10 and depends on Goo `0.6.7`. Use
+Goo Animations `0.2.4` targets .NET 10 and depends on Goo `0.6.7`. Use
 `Gsharp.NET.Sdk/0.4.591` and install the package from NuGet.org:
 
 ```sh
-dotnet add YourApp.gsproj package Goo.Animations --version 0.2.3
+dotnet add YourApp.gsproj package Goo.Animations --version 0.2.4
 ```
 
 ## Use
@@ -27,6 +27,11 @@ let pulse = Playback.PingPong(2, Cubic.Tween(0.3))
 opacity.To(1.0, pulse)
 
 Stagger.To(items, 1.0, Spring.Critical(14.0, 0.001, 0.01), 0.12)
+
+let spring = Spring.Damped(11.0, 0.56, 0.001, 0.01)(0.0, 1.0, 0.0)
+let position = spring.Position(0.4)
+let velocity = spring.Velocity(0.4)
+let thirdStart = Stagger.Offset(2, 0.12)
 
 let timeline = Timeline(this)
 timeline.Run(0.6, reveal)

@@ -20,6 +20,11 @@ timeline.Play()
 
 The timeline needs no `Window` argument. Disposing `owner` stops it: `Running` becomes false and later calls to `Play` throw `ObjectDisposedException`. Reduced motion or `Motion.TimeScale <= 0` completes each step immediately. Finite sequences still run every step in order; a loop completes its current pass, then stops.
 
+`Run` accepts arbitrary actions and calls each at the start of its step. Those
+effects cannot be reconstructed from elapsed time, so this action timeline
+does not support seeking. Use pure `Simulation.Position` and `Velocity` samples
+for frame-exact rendering.
+
 ### `new(Cell)`
 
 Creates a timeline owned by a cell.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.4 - 2026-09-28
+
+- Expose `Stagger.Offset` for deterministic item start times and validate the full stagger before animating.
+- Document pure spring sampling and the action timeline's seek limit.
+
 ## 0.2.3 - 2026-09-28
 
 - Update the Goo dependency to `0.6.7`.

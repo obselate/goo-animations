@@ -307,6 +307,76 @@ func TimelineActionControlContract() {
     host.Dispose()
 }
 
+func StaggerSamplingContract() {
+    Require(Stagger.Offset(0, 0.2, 0.1) == 0.1, "Stagger's first offset changed.")
+    Require(Math.Abs(Stagger.Offset(2, 0.2, 0.1) - 0.5) < 0.000001, "Stagger's indexed offset changed.")
+
+    let factory = Motion.Tween(1.0)
+    let owner = AnimationSmokeCell{}
+    let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
+    Stagger.To(animations, 10.0, factory, 0.2, 0.1)
+    for index in 0 ... animations.Length {
+        Require(animations[index].Running && animations[index].Target == 10.0, "Stagger.To did not start an item.")
+    }
+
+    let offset = Stagger.Offset(2, 0.2, 0.1)
+    let delayed = Delay.By(offset, factory)(2.0, 10.0, 0.0)
+    let direct = factory(2.0, 10.0, 0.0)
+    Require(delayed.Position(0.2) == 2.0 && delayed.Velocity(0.2) == 0.0, "Staggered sample moved before its offset.")
+    Require(
+        Math.Abs(delayed.Position(0.7) - direct.Position(0.7 - offset)) < 0.000001,
+        "Staggered sample used the wrong local elapsed time."
+    )
+
+    let simulation = Spring.Critical(12.0, 0.000001, 0.000001)(2.0, 10.0, 0.0)
+    let later = simulation.Position(0.6)
+    let velocity = simulation.Velocity(0.6)
+    simulation.Position(0.2)
+    simulation.Velocity(0.2)
+    Require(
+        simulation.Position(0.6) == later && simulation.Velocity(0.6) == velocity,
+        "Spring sampling depended on query order."
+    )
+}
+
+func StaggerOffsetValidationContract() {
+    var rejected = 0
+    try {
+        Stagger.Offset(-1, 0.1)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    try {
+        Stagger.Offset(1, -0.1)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    try {
+        Stagger.Offset(1, 0.1, Double.NaN)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    try {
+        Stagger.Offset(2, Double.MaxValue)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    try {
+        Stagger.To([]Anim[float64]{}, 10.0, Motion.Tween(1.0), Double.NaN)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    let owner = AnimationSmokeCell{}
+    let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
+    try {
+        Stagger.To(animations, 10.0, Motion.Tween(1.0), Double.MaxValue)
+    } catch (error ArgumentOutOfRangeException) {
+        rejected++
+    }
+    Require(rejected == 6, "Stagger accepted invalid timing or skipped preflight validation.")
+    Require(!animations[0].Running && !animations[1].Running, "Stagger began before checking the final offset.")
+}
+
 func Main() {
     let spec = Cubic.Tween(0.25)
     Require(spec.Duration == 0.25, "Cubic tween duration was not preserved.")
@@ -339,6 +409,8 @@ func Main() {
     TimelineOwnerDisposalContract()
     TimelineOwnerDisposalDuringActionContract()
     TimelineActionControlContract()
+    StaggerSamplingContract()
+    StaggerOffsetValidationContract()
 
     Console.WriteLine("PASS: Goo.Animations package motion lifecycle.")
 }
