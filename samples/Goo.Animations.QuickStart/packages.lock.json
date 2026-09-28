@@ -4,8 +4,8 @@
     "net10.0": {
       "Goo": {
         "type": "Transitive",
-        "resolved": "0.6.6",
-        "contentHash": "y2MS5KPrOo2kLZLDHRJObVpl4J15Ywp4FNIXmjPcaToR8Y+IZVKVhO7/CeBpELCBzUKzj3W5v8BaH0GflnZnaw==",
+        "resolved": "0.6.7",
+        "contentHash": "7BpQF/G3bShaurgsy7B2PEfYxefRLfTYMxF8cvseAExL9yPjeDv2PiAEkuz51a8GAMB5Z8eT1SYCyHbzqc+C1A==",
         "dependencies": {
           "Hexa.NET.SDL3": "1.2.17",
           "StbImageSharp": "2.30.16",
@@ -38,7 +38,7 @@
       "goo.animations": {
         "type": "Project",
         "dependencies": {
-          "Goo": "[0.6.6, 0.6.6]"
+          "Goo": "[0.6.7, 0.6.7]"
         }
       }
     }
