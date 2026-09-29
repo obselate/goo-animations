@@ -14,8 +14,8 @@
       },
       "Goo": {
         "type": "Transitive",
-        "resolved": "0.6.7",
-        "contentHash": "7BpQF/G3bShaurgsy7B2PEfYxefRLfTYMxF8cvseAExL9yPjeDv2PiAEkuz51a8GAMB5Z8eT1SYCyHbzqc+C1A==",
+        "resolved": "0.7.0",
+        "contentHash": "BcVGWVVUkogah6MAyvzNG/btBGuivNL2+Vnr3r31i3dwH0HkvSglwebOpB+T/YwBcB+bRHNSM+P4cwjus88sow==",
         "dependencies": {
           "Hexa.NET.SDL3": "1.2.17",
           "StbImageSharp": "2.30.16",
@@ -56,7 +56,7 @@
       "goo.animations": {
         "type": "Project",
         "dependencies": {
-          "Goo": "[0.6.7, 0.6.7]"
+          "Goo": "[0.7.0, 0.8.0)"
         }
       }
     }

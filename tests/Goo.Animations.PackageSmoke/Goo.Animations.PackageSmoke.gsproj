@@ -5,7 +5,7 @@
     <RootNamespace>Goo.Animations.PackageSmoke</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Goo" Version="[0.6.7]" />
+    <PackageReference Include="Goo" Version="[0.7.0]" />
     <Reference Include="Goo.Animations">
       <HintPath>../../artifacts/package/lib/net10.0/Goo.Animations.dll</HintPath>
     </Reference>

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.5 - 2026-09-29
+
+- Support Goo `0.7.x` and restore against Goo `0.7.0`.
+
 ## 0.2.4 - 2026-09-28
 
 - Expose `Stagger.Offset` for deterministic item start times and validate the full stagger before animating.
