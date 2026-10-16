@@ -6,7 +6,18 @@ import System
 internal class SpringSimulation : Simulation {
     private let target float64
     private let omega float64
-    private let dampingRatio float64
+    private let underdamped bool
+    private let overdamped bool
+    private let coefficient float64
+    private let decayRate float64
+    private let frequency float64
+    private let sineCoefficient float64
+    private let slowRate float64
+    private let fastRate float64
+    private let slowCoefficient float64
+    private let fastCoefficient float64
+    private let positionAmplitude float64
+    private let velocityAmplitude float64
     private let displacement float64
     private let initialVelocity float64
     private let positionTolerance float64
@@ -23,84 +34,65 @@ internal class SpringSimulation : Simulation {
     ) {
         this.target = target
         this.omega = omega
-        this.dampingRatio = dampingRatio
+        underdamped = dampingRatio < 0.9999
+        overdamped = dampingRatio > 1.0001
         this.positionTolerance = positionTolerance
         this.velocityTolerance = velocityTolerance
         displacement = start - target
         initialVelocity = velocity
+
+        if underdamped {
+            decayRate = dampingRatio * omega
+            frequency = omega * Math.Sqrt(1.0 - dampingRatio * dampingRatio)
+            sineCoefficient = (initialVelocity + decayRate * displacement) / frequency
+            let velocitySineCoefficient = -frequency * displacement - decayRate * sineCoefficient
+            positionAmplitude = Double.Hypot(displacement, sineCoefficient)
+            velocityAmplitude = Double.Hypot(initialVelocity, velocitySineCoefficient)
+        } else if overdamped {
+            let root = Math.Sqrt(dampingRatio * dampingRatio - 1.0)
+            slowRate = -omega * (dampingRatio - root)
+            fastRate = -omega * (dampingRatio + root)
+            slowCoefficient = (initialVelocity - fastRate * displacement) / (slowRate - fastRate)
+            fastCoefficient = displacement - slowCoefficient
+        } else {
+            coefficient = initialVelocity + omega * displacement
+        }
     }
 
-    private func criticalCoefficient() float64 -> initialVelocity + omega * displacement
-
-    private func isUnderdamped() bool -> dampingRatio < 0.9999
-
-    private func isOverdamped() bool -> dampingRatio > 1.0001
-
-    private func underdampedTerms()(decayRate float64, frequency float64, sineCoefficient float64) {
-        let decayRate = dampingRatio * omega
-        let frequency = omega * Math.Sqrt(1.0 - dampingRatio * dampingRatio)
-        return (decayRate, frequency, (initialVelocity + decayRate * displacement) / frequency)
-    }
-
-    private func overdampedTerms()(
-        slowRate float64,
-        fastRate float64,
-        slowCoefficient float64,
-        fastCoefficient float64
-    ) {
-        let root = Math.Sqrt(dampingRatio * dampingRatio - 1.0)
-        let slowRate = -omega * (dampingRatio - root)
-        let fastRate = -omega * (dampingRatio + root)
-        let slowCoefficient = (initialVelocity - fastRate * displacement) / (slowRate - fastRate)
-        return (slowRate, fastRate, slowCoefficient, displacement - slowCoefficient)
-    }
-
-    private func criticalDisplacement(elapsed float64) float64 {
-        let coefficient = criticalCoefficient()
-        return (displacement + coefficient * elapsed) * Math.Exp(-omega * elapsed)
-    }
+    private func criticalDisplacement(elapsed float64) float64 ->
+    (displacement + coefficient * elapsed) * Math.Exp(-omega * elapsed)
 
     private func criticalVelocity(elapsed float64) float64 {
-        let coefficient = criticalCoefficient()
         let linear = displacement + coefficient * elapsed
         return (coefficient - omega * linear) * Math.Exp(-omega * elapsed)
     }
 
     private func underdampedDisplacement(elapsed float64) float64 {
-        let terms = underdampedTerms()
-        let phase = terms.frequency * elapsed
+        let phase = frequency * elapsed
         let oscillation =
-        displacement * Math.Cos(phase) + terms.sineCoefficient * Math.Sin(phase)
+        displacement * Math.Cos(phase) + sineCoefficient * Math.Sin(phase)
 
-        return Math.Exp(-terms.decayRate * elapsed) * oscillation
+        return Math.Exp(-decayRate * elapsed) * oscillation
     }
 
     private func underdampedVelocity(elapsed float64) float64 {
-        let terms = underdampedTerms()
-        let phase = terms.frequency * elapsed
+        let phase = frequency * elapsed
         let oscillation =
-        displacement * Math.Cos(phase) + terms.sineCoefficient * Math.Sin(phase)
+        displacement * Math.Cos(phase) + sineCoefficient * Math.Sin(phase)
         let oscillationVelocity =
-        -displacement * terms.frequency * Math.Sin(phase) + terms.sineCoefficient * terms.frequency * Math.Cos(phase)
+        -displacement * frequency * Math.Sin(phase) + sineCoefficient * frequency * Math.Cos(phase)
 
-        return Math.Exp(-terms.decayRate * elapsed) *
-        (oscillationVelocity - terms.decayRate * oscillation)
+        return Math.Exp(-decayRate * elapsed) *
+        (oscillationVelocity - decayRate * oscillation)
     }
 
-    private func overdampedDisplacement(elapsed float64) float64 {
-        let terms = overdampedTerms()
+    private func overdampedDisplacement(elapsed float64) float64 ->
+    slowCoefficient * Math.Exp(slowRate * elapsed) + fastCoefficient * Math.Exp(fastRate * elapsed)
 
-        return terms.slowCoefficient * Math.Exp(terms.slowRate * elapsed) + terms.fastCoefficient * Math.Exp(
-            terms.fastRate * elapsed
-        )
-    }
-
-    private func overdampedVelocity(elapsed float64) float64 {
-        let terms = overdampedTerms()
-
-        return terms.slowRate * terms.slowCoefficient * Math.Exp(terms.slowRate * elapsed) +
-            terms.fastRate * terms.fastCoefficient * Math.Exp(terms.fastRate * elapsed)
-    }
+    private func overdampedVelocity(elapsed float64) float64 ->
+    slowRate * slowCoefficient * Math.Exp(slowRate * elapsed) + fastRate * fastCoefficient * Math.Exp(
+        fastRate * elapsed
+    )
 
     private func decayedMagnitude(magnitude float64, exponent float64) float64 {
         if magnitude == 0.0 {
@@ -132,7 +124,6 @@ internal class SpringSimulation : Simulation {
     }
 
     private func criticalDone(elapsed float64) bool {
-        let coefficient = criticalCoefficient()
         let positionBound =
         futureEnvelope(Math.Abs(displacement), Math.Abs(coefficient), elapsed)
         let velocityBound =
@@ -142,29 +133,19 @@ internal class SpringSimulation : Simulation {
     }
 
     private func underdampedDone(elapsed float64) bool {
-        let terms = underdampedTerms()
-        let velocitySineCoefficient =
-        -terms.frequency * displacement - terms.decayRate * terms.sineCoefficient
-
-        let positionAmplitude =
-        Double.Hypot(displacement, terms.sineCoefficient)
-        let velocityAmplitude =
-        Double.Hypot(initialVelocity, velocitySineCoefficient)
-        let exponent = -terms.decayRate * elapsed
+        let exponent = -decayRate * elapsed
 
         return decayedMagnitude(positionAmplitude, exponent) <= positionTolerance &&
             decayedMagnitude(velocityAmplitude, exponent) <= velocityTolerance
     }
 
     private func overdampedDone(elapsed float64) bool {
-        let terms = overdampedTerms()
-
         let positionBound =
-        decayedMagnitude(Math.Abs(terms.slowCoefficient), terms.slowRate * elapsed) +
-            decayedMagnitude(Math.Abs(terms.fastCoefficient), terms.fastRate * elapsed)
+        decayedMagnitude(Math.Abs(slowCoefficient), slowRate * elapsed) +
+            decayedMagnitude(Math.Abs(fastCoefficient), fastRate * elapsed)
         let velocityBound =
-        decayedProductMagnitude(Math.Abs(terms.slowRate), Math.Abs(terms.slowCoefficient), terms.slowRate * elapsed) +
-            decayedProductMagnitude(Math.Abs(terms.fastRate), Math.Abs(terms.fastCoefficient), terms.fastRate * elapsed)
+        decayedProductMagnitude(Math.Abs(slowRate), Math.Abs(slowCoefficient), slowRate * elapsed) +
+            decayedProductMagnitude(Math.Abs(fastRate), Math.Abs(fastCoefficient), fastRate * elapsed)
 
         return positionBound <= positionTolerance && velocityBound <= velocityTolerance
     }
@@ -174,9 +155,9 @@ internal class SpringSimulation : Simulation {
             return target
         }
 
-        let remaining = if isUnderdamped() {
+        let remaining = if underdamped {
             underdampedDisplacement(elapsed)
-        } else if isOverdamped() {
+        } else if overdamped {
             overdampedDisplacement(elapsed)
         } else {
             criticalDisplacement(elapsed)
@@ -189,10 +170,10 @@ internal class SpringSimulation : Simulation {
             return 0.0
         }
 
-        if isUnderdamped() {
+        if underdamped {
             return underdampedVelocity(elapsed)
         }
-        if isOverdamped() {
+        if overdamped {
             return overdampedVelocity(elapsed)
         }
         return criticalVelocity(elapsed)
@@ -206,10 +187,10 @@ internal class SpringSimulation : Simulation {
             return true
         }
 
-        if isUnderdamped() {
+        if underdamped {
             return underdampedDone(elapsed)
         }
-        if isOverdamped() {
+        if overdamped {
             return overdampedDone(elapsed)
         }
 
