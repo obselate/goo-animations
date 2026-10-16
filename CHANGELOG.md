@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Cache constructor-invariant spring coefficients and settling amplitudes without changing sampled output.
+
 ## 0.2.5 - 2026-09-29
 
 - Support Goo `0.7.x` and restore against Goo `0.7.0`.
