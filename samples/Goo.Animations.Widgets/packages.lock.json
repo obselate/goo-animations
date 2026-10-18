@@ -6,7 +6,7 @@
         "type": "Direct",
         "requested": "[0.3.0, 0.3.0]",
         "resolved": "0.3.0",
-        "contentHash": "eXjlfJoStadGzMWSD8EiWbttA0GCgoprJxXcj4i2BnCxpeIEpUjCumL1rLRNh61BGQqNp+VxEE99WoL6szC8UA==",
+        "contentHash": "Z8ZUTIJpDpWnuXAW22Au6T/pfE2a7JrnC1JUTS9IYvYavIJMu+9gLfJx6FjM808p6iR6E1HTjXiE6M9iXyJksA==",
         "dependencies": {
           "Goo": "0.7.37"
         }
