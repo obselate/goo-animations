@@ -8,11 +8,11 @@ the motion clock, and rendering.
 
 ## Install
 
-Goo Animations `0.2.5` targets .NET 10 and supports Goo `0.7.x`. Use
-`Gsharp.NET.Sdk/0.4.591` and install the package from NuGet.org:
+Goo Animations `0.2.7` targets .NET 10 and supports Goo `0.7.x`. Use
+`Gsharp.NET.Sdk/0.4.1150` and install the package from NuGet.org:
 
 ```sh
-dotnet add YourApp.gsproj package Goo.Animations --version 0.2.5
+dotnet add YourApp.gsproj package Goo.Animations --version 0.2.7
 ```
 
 ## Use

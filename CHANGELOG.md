@@ -2,7 +2,14 @@
 
 ## Unreleased
 
+## 0.2.7 - 2026-10-18
+
 - Cache constructor-invariant spring coefficients and settling amplitudes without changing sampled output.
+- Update the Widgets sample to Goo.Widgets `0.3.0` and ambient themes.
+
+## 0.2.6 - 2026-10-09
+
+- Build with G# SDK `0.4.1150`.
 
 ## 0.2.5 - 2026-09-29
 

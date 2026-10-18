@@ -28,7 +28,7 @@ class TweenDemo : Cell {
     override func Build() Blob -> Container{
         Gap: 24,
         AlignItems: AlignItems.Center,
-        Text{Content: "Motion Tween", FontSize: 14, Color: Color.Rgb(161, 161, 170),},
+        Text{Content: "Motion Tween", FontSize: 14},
         ProgressBar{
             Value: motionProgress.Value,
             Width: 360,
@@ -37,7 +37,7 @@ class TweenDemo : Cell {
             TransitionMs: 0.0,
             AccessibilityName: "Motion Tween Progress",
         }.Build(),
-        Text{Content: "Cubic Tween", FontSize: 14, Color: Color.Rgb(161, 161, 170),},
+        Text{Content: "Cubic Tween", FontSize: 14},
         ProgressBar{
             Value: cubicProgress.Value,
             Width: 320,
