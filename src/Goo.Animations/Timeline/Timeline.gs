@@ -175,6 +175,6 @@ public sealed class Timeline {
         }
 
         clock.Set(0.0)
-        clock.To(1.0, Motion.Tween(step.Duration, Easing.Linear))
+        clock.To(1.0, Motion.Tween(step.Duration * 1000.0, Easing.Linear))
     }
 }

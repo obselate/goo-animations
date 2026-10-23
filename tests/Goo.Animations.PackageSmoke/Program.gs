@@ -311,7 +311,7 @@ func StaggerSamplingContract() {
     Require(Stagger.Offset(0, 0.2, 0.1) == 0.1, "Stagger's first offset changed.")
     Require(Math.Abs(Stagger.Offset(2, 0.2, 0.1) - 0.5) < 0.000001, "Stagger's indexed offset changed.")
 
-    let factory = Motion.Tween(1.0)
+    let factory = Motion.Tween(1000.0)
     let owner = AnimationSmokeCell{}
     let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
     Stagger.To(animations, 10.0, factory, 0.2, 0.1)
@@ -362,14 +362,14 @@ func StaggerOffsetValidationContract() {
         rejected++
     }
     try {
-        Stagger.To([]Anim[float64]{}, 10.0, Motion.Tween(1.0), Double.NaN)
+        Stagger.To([]Anim[float64]{}, 10.0, Motion.Tween(1000.0), Double.NaN)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     let owner = AnimationSmokeCell{}
     let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
     try {
-        Stagger.To(animations, 10.0, Motion.Tween(1.0), Double.MaxValue)
+        Stagger.To(animations, 10.0, Motion.Tween(1000.0), Double.MaxValue)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }

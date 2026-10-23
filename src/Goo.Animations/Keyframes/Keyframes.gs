@@ -34,7 +34,7 @@ public class Keyframes {
                 if index > 0 && frame.Time <= copy[index - 1].Time {
                     throw ArgumentException("Keyframe times must be strictly increasing.")
                 }
-                Motion.Tween(duration, frame.Easing)
+                Motion.Tween(duration * 1000.0, frame.Easing)
 
                 copy[index] = frame
             }

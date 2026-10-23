@@ -8,14 +8,17 @@ the motion clock, and rendering.
 
 ## Install
 
-Goo Animations `0.2.7` targets .NET 10 and supports Goo `0.7.x`. Use
-`Gsharp.NET.Sdk/0.4.1150` and install the package from NuGet.org:
+This branch targets .NET 10 and requires Goo `0.7.55`.
+Use `Gsharp.NET.Sdk/0.4.1150`. Do not release it before Goo `0.7.55` is available.
 
 ```sh
 dotnet add YourApp.gsproj package Goo.Animations --version 0.2.7
 ```
 
 ## Use
+
+Goo's `Motion.Tween(durationMs, easing)` takes milliseconds. This library's
+duration and delay APIs still take seconds and convert at the Goo boundary.
 
 ```gs
 import Goo
