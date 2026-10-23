@@ -8,9 +8,7 @@ the motion clock, and rendering.
 
 ## Install
 
-This branch targets the first Goo release containing
-[goo#243](https://github.com/obselate/goo/pull/243). Do not merge or release it before that release is available.
-Use .NET 10 and `Gsharp.NET.Sdk/0.4.1150`.
+Requires Goo `0.8.0`, .NET 10, and `Gsharp.NET.Sdk/0.4.1150`.
 
 ```sh
 dotnet add YourApp.gsproj package Goo.Animations --version 0.2.7

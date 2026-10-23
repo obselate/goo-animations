@@ -20,7 +20,7 @@
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeAnimationDocumentation</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Goo" Version="[0.7.0, 0.8.0)" />
+    <PackageReference Include="Goo" Version="[0.8.0]" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
     <None Include="../../LICENSE" Pack="true" PackagePath="/" />
   </ItemGroup>

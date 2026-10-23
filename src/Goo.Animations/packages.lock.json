@@ -4,12 +4,11 @@
     "net10.0": {
       "Goo": {
         "type": "Direct",
-        "requested": "[0.7.0, 0.8.0)",
-        "resolved": "0.7.0",
-        "contentHash": "BcVGWVVUkogah6MAyvzNG/btBGuivNL2+Vnr3r31i3dwH0HkvSglwebOpB+T/YwBcB+bRHNSM+P4cwjus88sow==",
+        "requested": "[0.8.0, 0.8.0]",
+        "resolved": "0.8.0",
+        "contentHash": "/inRNEFv7kgUc5jNBa/E73EXF/+9tvjYX9svGQkQehomCQp8kP4emIbulGfVPJPHDPtNkiGRF0QeoqaPFQvGvw==",
         "dependencies": {
           "Hexa.NET.SDL3": "1.2.17",
-          "StbImageSharp": "2.30.16",
           "Unicode.Bidi": "0.3.18"
         }
       },
@@ -25,11 +24,6 @@
         "type": "Transitive",
         "resolved": "1.1.24",
         "contentHash": "1P5IA09EL514OeKGyJ3mSI5F9MGAId27CoSR0SzVz3Jj6m/7tn/GdONoWEUYacRSc41y+CbR6tVGcZNAldsehA=="
-      },
-      "StbImageSharp": {
-        "type": "Transitive",
-        "resolved": "2.30.16",
-        "contentHash": "qg1i+NHihXVKLKYacGKrauhSQIGL31eBWcTC4Vc7jnGmBFj87LkRuCdXB5aDZisWMRnB6x2mcfwYXQxMWEG/lw=="
       },
       "Unicode.Bidi": {
         "type": "Transitive",
