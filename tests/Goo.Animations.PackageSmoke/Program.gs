@@ -117,9 +117,7 @@ func TimelineReducedLoopContract() {
 
     host.RenderFrame(0.0)
     host.RenderFrame(0.0)
-    for var i = 0;
-    i < 3;
-    i++ {
+    for var i = 0; i < 3; i++ {
         host.RenderFrame(0.0)
     }
     Require(actions == 1 && !timeline.Running, "Reduced motion did not stop a loop after its current iteration.")
@@ -189,9 +187,7 @@ func TimelineDisabledLoopContract() {
         timeline.Play()
         host.RenderFrame(0.0)
         host.RenderFrame(0.0)
-        for var i = 0;
-        i < 3;
-        i++ {
+        for var i = 0; i < 3; i++ {
             host.RenderFrame(0.0)
         }
         Require(actions == 1 && !timeline.Running, "Disabled motion did not stop a loop after its current iteration.")

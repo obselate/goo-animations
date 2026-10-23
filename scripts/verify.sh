@@ -3,19 +3,19 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-lint_commit=7c9444a4fefd10fa9423ee50307e2aaed7c6842e
-lint_hash=27b69ec4e2569e9e1e036dc96dfc5dfb580144909aa77eec2b0d04d209714764
-lint_source=deps/Gslint/Program.cs
+lint_commit=738e2fa1917cd49d7b87577787bcf71e8a709883
+lint_hash=6cf35edfa41761ba4afea655a2cc848ae74790b70c9425737405e88d85e3eaf2
+lint_source=deps/Gslint/Program.gs
 if [[ ! -f "$lint_source" ]]; then
   mkdir -p deps/Gslint
   curl --fail --location --silent --show-error --retry 3 \
-    "https://raw.githubusercontent.com/obselate/goo/$lint_commit/tools/Goo.Gslint/Program.cs" \
+    "https://raw.githubusercontent.com/obselate/goo/$lint_commit/tools/Goo.Gslint/Program.gs" \
     --output "$lint_source"
 fi
 printf '%s  %s\n' "$lint_hash" "$lint_source" | sha256sum --check --status
 
-dotnet restore tools/Gslint/Gslint.csproj --locked-mode
-dotnet build tools/Gslint/Gslint.csproj -c Release --no-restore --nologo -warnaserror
+dotnet restore tools/Gslint/Gslint.gsproj --locked-mode
+dotnet build tools/Gslint/Gslint.gsproj -c Release --no-restore --nologo -warnaserror
 dotnet tools/Gslint/bin/Release/net10.0/Gslint.dll --strict src samples tests
 dotnet restore Goo.Animations.slnx --locked-mode
 dotnet build Goo.Animations.slnx -c Release --no-restore --nologo
