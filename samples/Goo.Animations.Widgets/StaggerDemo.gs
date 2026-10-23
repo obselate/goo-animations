@@ -19,7 +19,7 @@ class StaggerDemo : Cell {
             0.0
         }
         let spring = Spring.Critical(14.0, 0.001, 0.01)
-        Stagger.To(badgeProgress, target, spring, 0.12)
+        Stagger.To(badgeProgress, target, spring, 120.0)
     }
 
     override func Build() Blob {

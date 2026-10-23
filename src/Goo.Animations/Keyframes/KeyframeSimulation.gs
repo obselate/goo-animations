@@ -19,7 +19,7 @@ internal class KeyframeSimulation : Simulation {
         for index in 0 ... simulations.Length {
             let first = frames[index]
             let second = frames[index + 1]
-            simulations[index] = Motion.Tween(duration * (second.Time - first.Time), first.Easing)(
+            simulations[index] = Motion.Tween(duration * 1000.0 * (second.Time - first.Time), first.Easing)(
                 framePosition(first),
                 framePosition(second),
                 0.0

@@ -4,7 +4,7 @@ import Goo
 import System
 import System.Collections.Generic
 
-internal data struct TimelineStep(Duration float64, Action Action?) { }
+internal data struct TimelineStep(DurationMs float64, Action Action?) { }
 
 /// Runs a sequence of timed actions on a cell-owned motion clock.
 public sealed class Timeline {
@@ -35,23 +35,23 @@ public sealed class Timeline {
     }
 
     /// Appends a timed action.
-    /// @param duration step duration in seconds, including zero
+    /// @param durationMs step duration in milliseconds, including zero
     /// @param action action run at the start of the step
     /// @returns this timeline
-    public func Run(duration float64, action Action) Timeline {
+    public func Run(durationMs float64, action Action) Timeline {
         if action == nil {
             throw ArgumentNullException("action")
         }
 
-        add(duration, action)
+        add(durationMs, action)
         return this
     }
 
     /// Appends a timed pause.
-    /// @param duration pause duration in seconds, including zero
+    /// @param durationMs pause duration in milliseconds, including zero
     /// @returns this timeline
-    public func Hold(duration float64) Timeline {
-        add(duration, nil)
+    public func Hold(durationMs float64) Timeline {
+        add(durationMs, nil)
         return this
     }
 
@@ -96,14 +96,14 @@ public sealed class Timeline {
         clock.Set(0.0)
     }
 
-    private func add(duration float64, action Action?) {
+    private func add(durationMs float64, action Action?) {
         ensureAlive()
         ensureStopped()
-        if !Double.IsFinite(duration) || duration < 0.0 {
-            throw ArgumentOutOfRangeException("duration")
+        if !Double.IsFinite(durationMs) || durationMs < 0.0 {
+            throw ArgumentOutOfRangeException("durationMs")
         }
 
-        steps.Add(TimelineStep{Duration: duration, Action: action})
+        steps.Add(TimelineStep{DurationMs: durationMs, Action: action})
     }
 
     private func ensureStopped() {
@@ -175,6 +175,6 @@ public sealed class Timeline {
         }
 
         clock.Set(0.0)
-        clock.To(1.0, Motion.Tween(step.Duration, Easing.Linear))
+        clock.To(1.0, Motion.Tween(step.DurationMs, Easing.Linear))
     }
 }

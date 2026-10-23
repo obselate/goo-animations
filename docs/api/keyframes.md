@@ -22,7 +22,7 @@ Creates exact-duration authored scalar animation factories.
 
 Creates an offset animation whose target progress matches authored time.
 
-- `duration`: total duration in seconds, including zero
+- `durationMs`: total duration in milliseconds, including zero
 - `offsets`: ordered offsets from time zero to one
 - `easing`: easing used by every segment
 
@@ -32,7 +32,7 @@ Returns: a reusable exact-duration motion specification
 
 Creates a keyframe tween that intentionally ignores incoming velocity.
 
-- `duration`: total duration in seconds, including zero
+- `durationMs`: total duration in milliseconds, including zero
 - `frames`: ordered authored frames from time zero to one
 
 Returns: a reusable exact-duration motion specification

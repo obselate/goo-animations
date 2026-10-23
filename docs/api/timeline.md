@@ -12,9 +12,9 @@ Runs a sequence of timed actions on a cell-owned motion clock.
 
 ```gs
 let timeline = Timeline(owner)
-timeline.Run(0.2, reveal)
-timeline.Hold(0.1)
-timeline.Run(0.2, settle)
+timeline.Run(200.0, reveal)
+timeline.Hold(100.0)
+timeline.Run(200.0, settle)
 timeline.Play()
 ```
 
@@ -35,7 +35,7 @@ Creates a timeline owned by a cell.
 
 Appends a timed pause.
 
-- `duration`: pause duration in seconds, including zero
+- `durationMs`: pause duration in milliseconds, including zero
 
 Returns: this timeline
 
@@ -57,7 +57,7 @@ Starts or restarts the sequence. Retained for source compatibility; the window i
 
 Appends a timed action.
 
-- `duration`: step duration in seconds, including zero
+- `durationMs`: step duration in milliseconds, including zero
 - `action`: action run at the start of the step
 
 Returns: this timeline

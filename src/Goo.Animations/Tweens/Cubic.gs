@@ -9,11 +9,14 @@ public class Cubic {
 
     shared {
         /// Creates a cubic tween that preserves initial velocity and ends at rest.
-        /// @param duration duration in seconds, including zero
+        /// @param durationMs duration in milliseconds, including zero
         /// @returns a reusable exact-duration motion specification
-        public func Tween(duration float64) MotionSpec -> MotionSpec(
-            duration,
-            (start float64, target float64, velocity float64) -> CubicSimulation(start, target, velocity, duration)
-        )
+        public func Tween(durationMs float64) MotionSpec {
+            let duration = durationMs / 1000.0
+            return MotionSpec(
+                durationMs,
+                (start float64, target float64, velocity float64) -> CubicSimulation(start, target, velocity, duration)
+            )
+        }
     }
 }

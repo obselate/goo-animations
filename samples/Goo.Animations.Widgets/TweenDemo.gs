@@ -21,8 +21,8 @@ class TweenDemo : Cell {
             0.0
         }
 
-        motionProgress.To(target, Motion.Tween(0.6, Easing.EaseInOut))
-        cubicProgress.To(target, Cubic.Tween(0.6))
+        motionProgress.To(target, Motion.Tween(600.0, Easing.EaseInOut))
+        cubicProgress.To(target, Cubic.Tween(600.0))
     }
 
     override func Build() Blob -> Container{

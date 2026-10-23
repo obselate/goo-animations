@@ -11,7 +11,7 @@ class KeyframeDemo : Cell {
         shakeOffset = Animate(0.0)
 
         shake = Keyframes.Offsets(
-            0.45,
+            450.0,
             []TimedOffset{
                 TimedOffset{Time: 0.0, Offset: 0.0},
                 TimedOffset{Time: 0.15, Offset: -12.0},

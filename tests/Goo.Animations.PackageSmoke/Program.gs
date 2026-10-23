@@ -60,14 +60,14 @@ func TimelineCompletionContract() {
     var second = 0
     let timeline = Timeline(owner)
     timeline.Run(
-        1.0,
+        1000.0,
         () -> {
             first++
         }
     )
-    timeline.Hold(1.0)
+    timeline.Hold(1000.0)
     timeline.Run(
-        1.0,
+        1000.0,
         () -> {
             second++
         }
@@ -105,12 +105,12 @@ func TimelineReducedLoopContract() {
     var actions = 0
     let timeline = Timeline(owner)
     timeline.Run(
-        1.0,
+        1000.0,
         () -> {
             actions++
         }
     )
-    timeline.Hold(1.0)
+    timeline.Hold(1000.0)
     timeline.Loop()
     timeline.Play(window)
     Require(actions == 1 && timeline.Running, "Legacy Timeline.Play(Window) did not start the loop.")
@@ -179,12 +179,12 @@ func TimelineDisabledLoopContract() {
         var actions = 0
         let timeline = Timeline(owner)
         timeline.Run(
-            1.0,
+            1000.0,
             () -> {
                 actions++
             }
         )
-        timeline.Hold(1.0)
+        timeline.Hold(1000.0)
         timeline.Loop()
         timeline.Play()
         host.RenderFrame(0.0)
@@ -209,7 +209,7 @@ func TimelineOwnerDisposalContract() {
     host.RenderFrame(0.0)
 
     let timeline = Timeline(owner)
-    timeline.Run(1.0, () -> { })
+    timeline.Run(1000.0, () -> { })
     timeline.Play()
     Require(timeline.Running, "Timeline was not running before owner disposal.")
     host.Dispose()
@@ -235,7 +235,7 @@ func TimelineOwnerDisposalDuringActionContract() {
     let timeline = Timeline(owner)
     timeline.Hold(0.0)
     timeline.Run(
-        1.0,
+        1000.0,
         () -> {
             host.Dispose()
             runningDuringDisposal = timeline.Running
@@ -259,7 +259,7 @@ func TimelineActionControlContract() {
     var stoppedActions = 0
     let stopped = Timeline(owner)
     stopped.Run(
-        1.0,
+        1000.0,
         () -> {
             stoppedActions++
             stopped.Stop()
@@ -271,7 +271,7 @@ func TimelineActionControlContract() {
     var replayActions = 0
     let replayed = Timeline(owner)
     replayed.Run(
-        1.0,
+        1000.0,
         () -> {
             replayActions++
             if replayActions == 1 {
@@ -287,7 +287,7 @@ func TimelineActionControlContract() {
     var failedActions = 0
     let failing = Timeline(owner)
     failing.Run(
-        1.0,
+        1000.0,
         () -> {
             failedActions++
             if failedActions == 2 {
@@ -308,23 +308,23 @@ func TimelineActionControlContract() {
 }
 
 func StaggerSamplingContract() {
-    Require(Stagger.Offset(0, 0.2, 0.1) == 0.1, "Stagger's first offset changed.")
-    Require(Math.Abs(Stagger.Offset(2, 0.2, 0.1) - 0.5) < 0.000001, "Stagger's indexed offset changed.")
+    Require(Stagger.OffsetMs(0, 200.0, 100.0) == 100.0, "Stagger's first offset changed.")
+    Require(Math.Abs(Stagger.OffsetMs(2, 200.0, 100.0) - 500.0) < 0.000001, "Stagger's indexed offset changed.")
 
-    let factory = Motion.Tween(1.0)
+    let factory = Motion.Tween(1000.0)
     let owner = AnimationSmokeCell{}
     let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
-    Stagger.To(animations, 10.0, factory, 0.2, 0.1)
+    Stagger.To(animations, 10.0, factory, 200.0, 100.0)
     for index in 0 ... animations.Length {
         Require(animations[index].Running && animations[index].Target == 10.0, "Stagger.To did not start an item.")
     }
 
-    let offset = Stagger.Offset(2, 0.2, 0.1)
+    let offset = Stagger.OffsetMs(2, 200.0, 100.0)
     let delayed = Delay.By(offset, factory)(2.0, 10.0, 0.0)
     let direct = factory(2.0, 10.0, 0.0)
     Require(delayed.Position(0.2) == 2.0 && delayed.Velocity(0.2) == 0.0, "Staggered sample moved before its offset.")
     Require(
-        Math.Abs(delayed.Position(0.7) - direct.Position(0.7 - offset)) < 0.000001,
+        Math.Abs(delayed.Position(0.7) - direct.Position(0.7 - offset / 1000.0)) < 0.000001,
         "Staggered sample used the wrong local elapsed time."
     )
 
@@ -342,34 +342,34 @@ func StaggerSamplingContract() {
 func StaggerOffsetValidationContract() {
     var rejected = 0
     try {
-        Stagger.Offset(-1, 0.1)
+        Stagger.OffsetMs(-1, 100.0)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     try {
-        Stagger.Offset(1, -0.1)
+        Stagger.OffsetMs(1, -100.0)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     try {
-        Stagger.Offset(1, 0.1, Double.NaN)
+        Stagger.OffsetMs(1, 100.0, Double.NaN)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     try {
-        Stagger.Offset(2, Double.MaxValue)
+        Stagger.OffsetMs(2, Double.MaxValue)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     try {
-        Stagger.To([]Anim[float64]{}, 10.0, Motion.Tween(1.0), Double.NaN)
+        Stagger.To([]Anim[float64]{}, 10.0, Motion.Tween(1000.0), Double.NaN)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
     let owner = AnimationSmokeCell{}
     let animations = []Anim[float64]{owner.Value, owner.Animate(2.0), owner.Animate(2.0)}
     try {
-        Stagger.To(animations, 10.0, Motion.Tween(1.0), Double.MaxValue)
+        Stagger.To(animations, 10.0, Motion.Tween(1000.0), Double.MaxValue)
     } catch (error ArgumentOutOfRangeException) {
         rejected++
     }
@@ -378,8 +378,8 @@ func StaggerOffsetValidationContract() {
 }
 
 func Main() {
-    let spec = Cubic.Tween(0.25)
-    Require(spec.Duration == 0.25, "Cubic tween duration was not preserved.")
+    let spec = Cubic.Tween(durationMs: 250.0)
+    Require(spec.DurationMs == 250.0, "Cubic tween duration was not preserved.")
 
     let simulation = spec.Factory(2.0, 10.0, 0.0)
     Require(simulation.Position(-1.0) == 2.0, "Simulation lost its initial position.")
@@ -389,6 +389,21 @@ func Main() {
     )
     Require(simulation.Done(0.25) && simulation.Position(0.25) == 10.0, "Goo simulation did not finish at the target.")
 
+    let repeated = Playback.Repeat(2, spec)
+    let delayed = Delay.By(delayMs: 100.0, spec: repeated)
+    Require(repeated.DurationMs == 500.0 && delayed.DurationMs == 600.0, "Playback or delay lost milliseconds.")
+    let delayedSimulation = delayed.Factory(2.0, 10.0, 0.0)
+    Require(delayedSimulation.Position(0.05) == 2.0, "Delay ended before 100 milliseconds.")
+    Require(Math.Abs(delayedSimulation.Position(0.225) - 6.0) < 0.000001, "Delayed playback midpoint changed.")
+    let keyframes = Keyframes.Offsets(
+        durationMs: 1000.0,
+        offsets: []TimedOffset{TimedOffset{Time: 0.0, Offset: 0.0}, TimedOffset{Time: 1.0, Offset: 0.0}},
+        easing: Easing.Linear
+    )
+    let keyframeSimulation = keyframes.Factory(2.0, 10.0, 0.0)
+    Require(keyframes.DurationMs == 1000.0 && keyframeSimulation.Position(0.5) == 6.0, "Keyframe units changed.")
+    Require(!keyframeSimulation.Done(0.999) && keyframeSimulation.Done(1.0), "Keyframe duration changed.")
+
     let owner = AnimationSmokeCell{}
     owner.Value.To(10.0, spec)
     Require(owner.Value.Running && owner.Value.Target == 10.0, "Packaged Anim.To did not bind the motion target.")
@@ -396,8 +411,8 @@ func Main() {
     Require(!owner.Value.Running && owner.Value.Value == 4.0, "Packaged Anim.Snap did not stop at the supplied value.")
 
     let timeline = Timeline(owner)
-    timeline.Run(0.1, () -> { })
-    timeline.Hold(0.05)
+    timeline.Run(100.0, () -> { })
+    timeline.Hold(50.0)
     timeline.Loop()
     timeline.Stop()
     Require(!timeline.Running, "Packaged Timeline.Stop did not stop the timeline.")

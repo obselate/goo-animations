@@ -18,7 +18,7 @@ class PlaybackDemo : Cell {
         repeat = Playback.Repeat(
             2,
             Keyframes.Offsets(
-                0.3,
+                300.0,
                 []TimedOffset{
                     TimedOffset{Time: 0.0, Offset: 0.0},
                     TimedOffset{Time: 0.5, Offset: 0.18},
@@ -28,7 +28,7 @@ class PlaybackDemo : Cell {
             )
         )
 
-        pingPong = Playback.PingPong(1, Cubic.Tween(0.25))
+        pingPong = Playback.PingPong(1, Cubic.Tween(250.0))
     }
 
     private func repeatBadge() {
