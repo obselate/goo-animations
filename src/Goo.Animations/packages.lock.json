@@ -4,7 +4,7 @@
     "net10.0": {
       "Goo": {
         "type": "Direct",
-        "requested": "[0.9.0, 0.10.0)",
+        "requested": "[0.9.0, )",
         "resolved": "0.9.0",
         "contentHash": "7cNvghOf9j2c3vIHr5b72IQolQ+7VPWr3oDoaznzuBbpsr5MQ9pv3kOK/D+7a4uEN9boUgcE/Hyr2ozAOuZUUQ==",
         "dependencies": {
