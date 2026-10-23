@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.4.0 - 2026-10-23
+
+- Require Goo 0.9.0 or later. The upper bound is removed, so Goo minor releases no longer force an Animations release.
+
 ## 0.3.0 - 2026-10-23
 
 - Require Goo `[0.8.0, 0.9.0)`.
