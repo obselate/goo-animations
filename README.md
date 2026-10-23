@@ -8,7 +8,7 @@ the motion clock, and rendering.
 
 ## Install
 
-Requires Goo `0.8.0`, .NET 10, and `Gsharp.NET.Sdk/0.4.1150`.
+Requires Goo `0.8.x`, .NET 10, and `Gsharp.NET.Sdk/0.4.1150`.
 
 ```sh
 dotnet add YourApp.gsproj package Goo.Animations --version 0.2.7
@@ -16,32 +16,32 @@ dotnet add YourApp.gsproj package Goo.Animations --version 0.2.7
 
 ## Use
 
-Goo's `Motion.Tween(durationMs, easing)` takes milliseconds. This library's
-duration and delay APIs still take seconds and convert at the Goo boundary.
-
 ```gs
 import Goo
 import Goo.Animations
 
 offset.To(220.0, Spring.Damped(10.0, 0.5, 0.1, 1.0))
 
-let pulse = Playback.PingPong(2, Cubic.Tween(0.3))
+let pulse = Playback.PingPong(2, Cubic.Tween(300.0))
 opacity.To(1.0, pulse)
 
-Stagger.To(items, 1.0, Spring.Critical(14.0, 0.001, 0.01), 0.12)
+Stagger.To(items, 1.0, Spring.Critical(14.0, 0.001, 0.01), 120.0)
 
 let spring = Spring.Damped(11.0, 0.56, 0.001, 0.01)(0.0, 1.0, 0.0)
 let position = spring.Position(0.4)
 let velocity = spring.Velocity(0.4)
-let thirdStart = Stagger.Offset(2, 0.12)
+let thirdStartMs = Stagger.OffsetMs(2, 120.0)
 
 let timeline = Timeline(this)
-timeline.Run(0.6, reveal)
-timeline.Run(0.4, settle)
-timeline.Hold(1.0)
+timeline.Run(600.0, reveal)
+timeline.Run(400.0, settle)
+timeline.Hold(1000.0)
 timeline.Loop()
 timeline.Play()
 ```
+
+Durations, delays, and stagger offsets use milliseconds. Simulation elapsed time
+uses seconds. Keyframe `Time` remains normalized from zero to one.
 
 Complete examples:
 

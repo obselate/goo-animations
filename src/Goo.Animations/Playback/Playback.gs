@@ -9,17 +9,17 @@ public class Playback {
 
     shared {
         private func play(spec MotionSpec, legs int32, alternate bool) MotionSpec {
-            let duration = spec.Duration * float64(legs)
-            if !Double.IsFinite(duration) {
+            let durationMs = spec.DurationMs * float64(legs)
+            if !Double.IsFinite(durationMs) {
                 throw ArgumentOutOfRangeException("spec")
             }
 
             return MotionSpec(
-                duration,
+                durationMs,
                 (start float64, target float64, velocity float64) -> PlaybackSimulation(
                     start,
                     target,
-                    spec.Duration,
+                    spec.DurationMs / 1000.0,
                     legs,
                     alternate,
                     spec.Factory(start, target, velocity)

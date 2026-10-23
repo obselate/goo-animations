@@ -14,12 +14,12 @@ Describes a reusable scalar simulation with an exact duration.
 
 Creates an exact-duration motion specification.
 
-- `duration`: exact duration in seconds, including zero
+- `durationMs`: exact duration in milliseconds, including zero
 - `factory`: reusable scalar simulation factory
 
-### `Duration`
+### `DurationMs`
 
-Gets the exact duration in seconds.
+Gets the exact duration in milliseconds.
 
 ### `Factory`
 

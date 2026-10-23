@@ -6,30 +6,30 @@ import System
 /// Describes a reusable scalar simulation with an exact duration.
 public sealed class MotionSpec {
     private let factory(float64, float64, float64) -> Simulation
-    private let duration float64
+    private let durationMs float64
 
     /// Gets the reusable scalar simulation factory.
     public prop Factory(float64, float64, float64) -> Simulation {
         get -> factory
     }
 
-    /// Gets the exact duration in seconds.
-    public prop Duration float64 {
-        get -> duration
+    /// Gets the exact duration in milliseconds.
+    public prop DurationMs float64 {
+        get -> durationMs
     }
 
     /// Creates an exact-duration motion specification.
-    /// @param duration exact duration in seconds, including zero
+    /// @param durationMs exact duration in milliseconds, including zero
     /// @param factory reusable scalar simulation factory
-    public init(duration float64, factory(float64, float64, float64) -> Simulation) {
-        if !Double.IsFinite(duration) || duration < 0.0 {
-            throw ArgumentOutOfRangeException("duration")
+    public init(durationMs float64, factory(float64, float64, float64) -> Simulation) {
+        if !Double.IsFinite(durationMs) || durationMs < 0.0 {
+            throw ArgumentOutOfRangeException("durationMs")
         }
         if factory == nil {
             throw ArgumentNullException("factory")
         }
 
-        this.duration = duration
+        this.durationMs = durationMs
         this.factory = factory
     }
 }

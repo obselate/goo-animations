@@ -9,12 +9,12 @@ public class Keyframes {
 
     shared {
         /// Creates a keyframe tween that intentionally ignores incoming velocity.
-        /// @param duration total duration in seconds, including zero
+        /// @param durationMs total duration in milliseconds, including zero
         /// @param frames ordered authored frames from time zero to one
         /// @returns a reusable exact-duration motion specification
-        public func Tween(duration float64, frames[]Keyframe) MotionSpec {
-            if !Double.IsFinite(duration) || duration < 0.0 {
-                throw ArgumentOutOfRangeException("duration")
+        public func Tween(durationMs float64, frames[]Keyframe) MotionSpec {
+            if !Double.IsFinite(durationMs) || durationMs < 0.0 {
+                throw ArgumentOutOfRangeException("durationMs")
             }
             if frames.Length < 2 {
                 throw ArgumentException("A keyframe tween requires at least two frames.")
@@ -34,7 +34,7 @@ public class Keyframes {
                 if index > 0 && frame.Time <= copy[index - 1].Time {
                     throw ArgumentException("Keyframe times must be strictly increasing.")
                 }
-                Motion.Tween(duration * 1000.0, frame.Easing)
+                Motion.Tween(durationMs, frame.Easing)
 
                 copy[index] = frame
             }
@@ -49,18 +49,19 @@ public class Keyframes {
                 throw ArgumentException("The final keyframe must describe the exact target.")
             }
 
+            let duration = durationMs / 1000.0
             return MotionSpec(
-                duration,
+                durationMs,
                 (start float64, target float64, velocity float64) -> KeyframeSimulation(start, target, duration, copy)
             )
         }
 
         /// Creates an offset animation whose target progress matches authored time.
-        /// @param duration total duration in seconds, including zero
+        /// @param durationMs total duration in milliseconds, including zero
         /// @param offsets ordered offsets from time zero to one
         /// @param easing easing used by every segment
         /// @returns a reusable exact-duration motion specification
-        public func Offsets(duration float64, offsets[]TimedOffset, easing Easing) MotionSpec {
+        public func Offsets(durationMs float64, offsets[]TimedOffset, easing Easing) MotionSpec {
             let frames = [offsets.Length]Keyframe
 
             for index in 0 ... offsets.Length {
@@ -73,7 +74,7 @@ public class Keyframes {
                 }
             }
 
-            return Tween(duration, frames)
+            return Tween(durationMs, frames)
         }
     }
 }

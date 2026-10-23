@@ -14,7 +14,7 @@ Creates delayed simulation factories.
 
 Delays an exact-duration motion specification.
 
-- `seconds`: nonnegative delay in seconds
+- `delayMs`: nonnegative delay in milliseconds
 - `spec`: exact-duration motion specification
 
 Returns: a delayed motion specification with the combined duration
@@ -23,7 +23,7 @@ Returns: a delayed motion specification with the combined duration
 
 Delays an existing scalar simulation factory.
 
-- `seconds`: nonnegative delay in seconds
+- `delayMs`: nonnegative delay in milliseconds
 - `factory`: simulation factory wrapped by the delay
 
 Returns: a delayed Goo scalar simulation factory

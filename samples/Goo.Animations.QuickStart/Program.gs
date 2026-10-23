@@ -69,7 +69,7 @@ class EntryPreview : Cell {
             0.0
         }
 
-        progress.To(target, Cubic.Tween(0.22))
+        progress.To(target, Cubic.Tween(220.0))
     }
 
     override func Build() Blob -> Container{

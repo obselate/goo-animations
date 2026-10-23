@@ -14,6 +14,6 @@ Creates exact-duration cubic simulation factories.
 
 Creates a cubic tween that preserves initial velocity and ends at rest.
 
-- `duration`: duration in seconds, including zero
+- `durationMs`: duration in milliseconds, including zero
 
 Returns: a reusable exact-duration motion specification
