@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.3.0 - 2026-10-23
+
+- Require Goo `[0.8.0, 0.9.0)`.
+- Breaking: authored durations and delays use milliseconds. Multiply seconds by 1000; names gain `Ms`.
+
 ## 0.2.7 - 2026-10-18
 
 - Cache constructor-invariant spring coefficients and settling amplitudes without changing sampled output.
