@@ -7,7 +7,6 @@ deps/
 /docs/api/*
 !/docs/api/*.md
 /scripts/*
-!/scripts/verify-package.py
 !/scripts/verify.sh
 /tests/*
 !/tests/Goo.Animations.PackageSmoke/
@@ -16,6 +15,10 @@ deps/
 /tools/Gslint/*
 !/tools/Gslint/Gslint.gsproj
 !/tools/Gslint/packages.lock.json
+!/tools/Goo.Animations.Checks/
+!/tools/Goo.Animations.Checks/Goo.Animations.Checks.gsproj
+!/tools/Goo.Animations.Checks/Program.gs
+!/tools/Goo.Animations.Checks/packages.lock.json
 /tools/Goo.Animations.ApiDocs/
 .vs/
 .idea/

@@ -20,7 +20,7 @@ dotnet tools/Gslint/bin/Release/net10.0/Gslint.dll --strict src samples tests
 dotnet restore Goo.Animations.slnx --locked-mode
 dotnet build Goo.Animations.slnx -c Release --no-restore --nologo
 dotnet pack src/Goo.Animations/Goo.Animations.gsproj -c Release --no-build --no-restore -o artifacts/packages
-python3 scripts/verify-package.py
+dotnet run --project tools/Goo.Animations.Checks/Goo.Animations.Checks.gsproj -c Release
 version="$(dotnet msbuild src/Goo.Animations/Goo.Animations.gsproj -getProperty:Version -nologo)"
 dotnet restore tests/Goo.Animations.PackageSmoke/Goo.Animations.PackageSmoke.gsproj --locked-mode
 dotnet run --project tests/Goo.Animations.PackageSmoke/Goo.Animations.PackageSmoke.gsproj \
