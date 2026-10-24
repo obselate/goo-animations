@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.4.1 - 2026-10-24
+
+- Verified with Goo 0.16.0 and Goo Widgets 0.9.0.
+- Packages are also published to GitHub Packages.
+- Package verification no longer needs Python.
+
 ## 0.4.0 - 2026-10-23
 
 - Require Goo 0.9.0 or later. The upper bound is removed, so Goo minor releases no longer force an Animations release.

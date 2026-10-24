@@ -37,7 +37,7 @@ class KeyframeDemo : Cell {
             FlexDirection: FlexDirection.Column,
             Banner{
                 Content: "Invalid value. Check the highlighted field.",
-                Alert: true,
+                Tone: Goo.Widgets.Tone.Danger,
                 TransitionMs: 0.0,
                 Transform: PanelTransform{TranslateX: shakeOffset.Value},
             }.Build(),

@@ -11,7 +11,7 @@ the motion clock, and rendering.
 Requires Goo 0.9.0 or later, .NET 10, and `Gsharp.NET.Sdk/0.4.1150`.
 
 ```sh
-dotnet add YourApp.gsproj package Goo.Animations --version 0.4.0
+dotnet add YourApp.gsproj package Goo.Animations --version 0.4.1
 ```
 
 ## Use
