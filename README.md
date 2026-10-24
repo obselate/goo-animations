@@ -2,9 +2,8 @@
 
 Reusable G# animation tools for [Goo Motion](https://github.com/obselate/goo/blob/main/docs/api/motion.md).
 
-The API provides springs, exact-duration motion specifications, delays,
-staggering, keyframes, finite playback, and timelines. Goo owns animated values,
-the motion clock, and rendering.
+Includes springs, exact-duration motion, delays, staggering, keyframes, finite
+playback, and timelines. Goo owns animated values, the clock, and rendering.
 
 ## Install
 
@@ -50,7 +49,7 @@ Complete examples:
 
 ## Build
 
-The repository requires .NET SDK `10.0.401` and uses locked dependencies.
+Requires .NET SDK `10.0.401`. Dependencies are locked.
 
 ```sh
 bash scripts/verify.sh
