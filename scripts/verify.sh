@@ -8,7 +8,7 @@ lint_hash=6cf35edfa41761ba4afea655a2cc848ae74790b70c9425737405e88d85e3eaf2
 lint_source=deps/Gslint/Program.gs
 if [[ ! -f "$lint_source" ]]; then
   mkdir -p deps/Gslint
-  curl --fail --location --silent --show-error --retry 3 \
+  curl --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 2 \
     "https://raw.githubusercontent.com/obselate/goo/$lint_commit/tools/Goo.Gslint/Program.gs" \
     --output "$lint_source"
 fi
